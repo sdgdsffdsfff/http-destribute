@@ -5,7 +5,15 @@
 extern "C"{
 #endif
 
-typedef struct http_node_element Http_Hash_Node_Element_s;
+typedef struct taghttp_node_element Http_Hash_Node_Element_s;
+
+typedef UINT32 (*HttpHashIterateFuc)
+(
+    VOID *pKey,
+    UINT32 uiKeyLen,
+    VOID *pValue,
+    VOID *pUsrData
+);
 
 struct Http_Hash_Node_Element_s
 {
@@ -27,14 +35,171 @@ typdef struct Http_Hash_Node
     /* length of hash key */
     UINT32 uiKeyLen;
 
+    /* number of Http_Hash_Node_Element_s */
+    UINT32 uiElementNum;
+
     /* Node of Hash Table, list of the hash data */
     Http_Hash_Node_Element_s *pstHttpHashNodeElement;
 }Http_Hash_Node_s;
 
-typedef struct Http_Hash_Table_s
+/* store mode of hash table data */
+typedef enum tagHttp_Hash_Table_Store_Mode
 {
-   
-}
+   STORE_MODE_INVALID  = 0,
+   STORE_MODE_CPY      = 1,
+   STORE_MODE_VALREF   = 2,
+   STORE_MODE_KEYREF   = 3,
+   STORE_MODE_ALLREF   = 4,
+   STORE_MODE_MAX      = 5,
+} Http_Hash_Table_Store_Mode_e;
+
+typedef struct tagHttp_Hash_Table
+{
+   /* the hash table array where all data elements store */
+   Http_Hash_Node_s **ppstStoreBuckets;
+
+   /* mode of data store in hashtable */
+    UINT32 uiDataStoreMode;
+
+    /* count of key current in hashtabel */
+    UINT32 uiKeyCount;
+
+    /* num of key allocated of hashtable */
+    UINT32 uiKeyNum;
+
+    /* ration of hashtable */
+    UINT16 usKeyRatio;
+
+   /*for 4 4 byte alignment */
+    UINT16  usKeyReserve;
+} Http_Hash_Table_s;
+
+
+Http_Hash_Table_s * Create_Hash_Table
+(
+    UNT32 uiTableMode
+);
+
+UINT32 Destory_Hash_Table
+(
+    Http_Hash_Table_s *pstHttpHashTable
+);
+
+Http_Hash_Node_s *Create_Http_Hash_Store_Node();
+
+UINT32 Delete_Http_Hash_Store_Node
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    Http_Hash_Node_s *pstHashNode
+);
+
+UINT32 Remove_Hash_Element_From_Node
+(
+    Http_Hash_Node_s *pstHttpHashNode,
+    Http_Hash_Node_Element_s *pstHttpEleMent
+)；
+
+UINT32 Http_Hash_Add_Node
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    VOID *pKey, UINT32 uiKeyLen,
+    Http_Hash_Node_s *pstHashNode
+);
+
+UINT32 Http_Hash_Remove_Node
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    VOID *pKey,
+    UINT32 uiKeyLen,
+    Htt_Hash_Node_s *pstHashNode
+);
+
+UINT32 Http_Add_Data
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    VOID *pKey,
+    UINT32 uiKeyLen,
+    VOID *pData,
+    UINT32 uiDataLen
+);
+
+UINT32 Http_Hash_Delete_Data
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    VOID *pKey,
+    UINT32 uiKeyLen,
+    VOID *pData
+);
+
+UINT32 Http_Hash_Table_Hash_To_Hash
+(
+    VOID *pKey,
+    UINT32 uiKeyLen,
+    UINT32 uiMaxKey
+);
+
+UINT32 Http_Hash_Tabel_Delete
+(
+    Http_Hash_Table_s *pstHttpHashTable
+);
+
+VOID * Http_Hash_Tabel_Lookup
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    VOID *pKey,
+    UINT32 uiKeyLen
+);
+
+Http_Hash_Node_Element_s * Http_Hash_Tabel_Lookup_Node_Element
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    VOID *pKey,
+    UINT32 uiKeyLen
+);
+
+Http_Hash_Node_s * Http_Hash_Table_Loopup_Node
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    VOID *pKey,
+     UINT32 uiKeyLen
+);
+
+Http_Hash_Node_Element_s * Http_Hash_Node_Lookup_Element
+(
+    Http_Hash_Node_s *pstHttpHashNode,
+    VOID * pData，
+    UINT32 uiDataLen
+);
+
+UINT32 Http_Hash_Table_Resize
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    UINT32 uiTableSize
+);
+
+UINT32 Http_Hash_Table_Iterate
+(
+    Http_Hash_Table_s *pstHttpHashTable,
+    HttpHashIterateFuc * pIterateCallBack,
+    VOID *pUserData
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #ifdef __cplusplus
 }

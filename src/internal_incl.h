@@ -5,5 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
+#include "types.h"
+#include "hash.h"
 
 #endif
