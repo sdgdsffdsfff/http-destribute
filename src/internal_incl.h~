@@ -7,6 +7,5 @@
 #include <sys/types.h>
 #include "types.h"
 #include "hash.h"
-#include "http_log.h"
 
 #endif

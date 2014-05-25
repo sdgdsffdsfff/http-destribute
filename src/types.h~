@@ -16,7 +16,7 @@ typedef unsigned char UCHAR;
 typedef unsigned short USHORT;
 typedef unsigned int UINT32;
 typedef unsigned long UINT64;
-typedef void VOID;
+
 #define HTTP_TRUE       1
 #define HTTP_FALSE      0
 

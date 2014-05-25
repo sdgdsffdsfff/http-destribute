@@ -68,10 +68,10 @@ typedef struct tagHttp_Hash_Table
     UINT32 uiKeyNum;
 
     /* ration of hashtable */
-    USHORT usKeyRatio;
+    UINT16 usKeyRatio;
 
    /*for 4 4 byte alignment */
-    USHORT  usKeyReserve;
+    UINT16  usKeyReserve;
 } Http_Hash_Table_s;
 
 
@@ -161,7 +161,7 @@ Http_Hash_Node_s * Http_Hash_Table_Loopup_Node
 (
     Http_Hash_Table_s *pstHttpHashTable,
     VOID *pKey,
-    UINT32 uiKeyLen
+     UINT32 uiKeyLen
 );
 
 Http_Hash_Node_Element_s * Http_Hash_Node_Lookup_Element

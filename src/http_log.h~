@@ -1,0 +1,54 @@
+#ifndef __HTTP_LOG_H__
+#define __HTTP_LOG_H__
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
+#define HTTP_LOG_TYPE_INIT            0x0001
+#define HTTP_LOG_TYPE_SYSLOGINIT      0x0002
+#define HTTP_LOG_TYPE_NOCOLOR         0x0004
+#define HTTP_LOG_TYPE_NOINFO          0x0008
+#define HTTP_LOG_TYPE_NODEBUG         0x0010
+
+typedef tagHttp_Log_Level
+{
+	HTTP_DEBUG    = 0,
+	HTTP_INFO     = 1,
+	HTTP_WARING   = 2,
+	HTTP_ERROR    = 3,
+}HTTP_LOG_LEVEL_E;
+
+typedef VOID (*Http_Log_CallBack)
+(
+	UINT32 uiHttpLogLevel,
+	const UCHAR *pucFileName,
+	UINT32 uiLineNum,
+	const UCHAR *pucfmt,
+	...
+);
+
+extern Http_Log_CallBack pHttp_Log_Fuc;
+
+UNIT32 Http_Log2StdErr
+(
+	UINT32 uiHttpLogLevel,
+	const UCHAR *pucFileName,
+	UINT32 uiLineNum,
+	const UCHAR *pucfmt,
+	...
+);
+
+UINT32 Http_Log_SysLog
+(
+	UINT32 uiHttpLogLevel,
+	const UCHAR *pucFileName,
+	UINT32 uiLineNum,
+	const UCHAR *pucfmt,
+	...
+);
+
+#ifdef __cplusplus
+}
+#endif
+#endif
